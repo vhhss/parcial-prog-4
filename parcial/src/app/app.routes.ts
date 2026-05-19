@@ -12,3 +12,5 @@ export const routes: Routes = [
   { path: 'whoami', component: Whoami },
   { path: '**', redirectTo: 'home' }
 ];
+
+export default routes;
