@@ -1,6 +1,7 @@
-import { Component, OnInit, signal } from '@angular/core';
+import { Component, OnInit, signal, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { HttpClient } from '@angular/common/http';
+import { GithubService } from '../../services/github';
+import { GithubUser } from '../../interfaces/github-user';
 
 @Component({
   selector: 'app-whoami',
@@ -10,15 +11,18 @@ import { HttpClient } from '@angular/common/http';
   styleUrl: './whoami.css'
 })
 export class Whoami implements OnInit {
-  datosGithub = signal<any>(null);
+  // Cambiamos signal<any> por el tipo de nuestra interfaz o null
+  datosGithub = signal<GithubUser | null>(null);
   errorApi: boolean = false;
 
-  constructor(private http: HttpClient) {}
+  // Inyectamos el nuevo servicio que creamos
+  private githubService = inject(GithubService);
 
   ngOnInit(): void {
-    this.http.get('https://api.github.com/users/vhhss').subscribe({
+    // Usamos el servicio pasándole tu usuario de GitHub
+    this.githubService.getUserProfile('vhhss').subscribe({
       next: (data) => {
-        this.datosGithub.set(data);
+        this.datosGithub.set(data); // El Signal se actualiza de forma segura y tipada
       },
       error: (err) => {
         this.errorApi = true;

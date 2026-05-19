@@ -11,7 +11,7 @@ import { RouterModule } from '@angular/router';
 export class App implements OnInit {
   title = 'parcial';
   isDarkMode = true;
-
+  
   ngOnInit(): void {
     // Al iniciar, intentamos recuperar el tema que guardó el usuario antes
     try {
