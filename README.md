@@ -5,7 +5,7 @@ Nombre: Demian Agustin Toscano
 Carrera: Tecnicatura Universitaria en Programación (UTN)
 
 Enlace al Deploy
-Vercel: https://parcial-git-sprint-1-vhhss-projects.vercel.app
+Vercel: https://parcial-beta-peach.vercel.app/
 
 Tecnologías Utilizadas
 Angular 21
