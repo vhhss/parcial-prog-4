@@ -35,7 +35,11 @@
             {{ mensajeError() }}
           </div>
 
-          <button type="submit" class="btn btn-success w-100">Registrarme e Ingresar</button>
+          <button type="submit" class="btn btn-success w-100" [disabled]="cargando()">
+            <span *ngIf="cargando()" class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+            <span *ngIf="!cargando()">Registrarme e Ingresar</span>
+            <span *ngIf="cargando()">Procesando Registro...</span>
+          </button>
         </form>
       </div>
     </div>

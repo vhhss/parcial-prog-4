@@ -18,7 +18,11 @@
             {{ mensajeError() }}
           </div>
 
-          <button type="submit" class="btn btn-primary w-100 mb-3">Iniciar Sesión</button>
+          <button type="submit" class="btn btn-primary w-100 mb-3" [disabled]="cargando()">
+            <span *ngIf="cargando()" class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+            <span *ngIf="!cargando()">Iniciar Sesión</span>
+            <span *ngIf="cargando()">Ingresando...</span>
+          </button>
         </form>
 
         <hr class="text-muted">

@@ -19,6 +19,9 @@ export class Registro {
   apellido: string = '';
   edad!: number;
   mensajeError = signal<string | null>(null);
+  
+  // Controla el estado visual del spinner en el botón de envío
+  cargando = signal<boolean>(false);
 
   async onRegistro() {
     this.mensajeError.set(null);
@@ -26,10 +29,15 @@ export class Registro {
       this.mensajeError.set('Por favor, complete todos los campos del formulario.');
       return;
     }
+
+    this.cargando.set(true); // Encendemos la animación
+    
     try {
       await this.authService.registrar(this.correo, this.contrasenia, this.nombre, this.apellido, this.edad);
     } catch (err: any) {
       this.mensajeError.set(err);
+    } finally {
+      this.cargando.set(false); // Apagamos la animación al terminar
     }
   }
 }

@@ -1,1 +1,46 @@
-<p>home works!</p>
+<div class="container mt-5 text-center">
+  
+  @if (!authService.usuarioActual()) {
+    <div class="py-5">
+      <h1 class="display-5 font-weight-bold mb-3">Sala de Juegos</h1>
+      <p class="text-muted col-lg-6 mx-auto mb-4">
+        Iniciá sesión o registrate para acceder a nuestro catálogo completo de desafíos lógicos, guardar tus marcas históricas y competir en los ránkings globales de la UTN.
+      </p>
+      <div class="d-flex justify-content-center gap-2">
+        <button routerLink="/login" class="btn btn-primary px-4 shadow-sm">Iniciar Sesión</button>
+        <button routerLink="/registro" class="btn btn-outline-secondary px-4">Registrarse</button>
+      </div>
+    </div>
+  } @else {
+    <div class="py-4">
+      <div class="alert alert-dark border-0 shadow-sm p-4 rounded-3 text-start mb-5 d-flex justify-content-between align-items-center">
+        <div>
+          <h2 class="h4 mb-1 font-weight-bold">
+            ¡Un gusto tenerte de vuelta, {{ authService.usuarioActual().nombre }} {{ authService.usuarioActual().apellido }}!
+          </h2>
+          <p class="text-muted small mb-0">
+            Identificado como: <span class="text-primary">{{ authService.usuarioActual().correo }}</span> 
+            — Edad: {{ authService.usuarioActual().edad }} años
+          </p>
+        </div>
+        <button (click)="logout()" class="btn btn-sm btn-danger px-3">Cerrar Sesión</button>
+      </div>
+
+      <h3 class="text-start h5 text-muted mb-4">Catálogo de Juegos Disponibles</h3>
+      <div class="row g-4 text-start">
+        <div class="col-md-4">
+          <div class="card shadow-sm border-0 h-100 p-3 rounded-3">
+            <div class="card-body d-flex flex-column justify-content-between">
+              <div>
+                <h5 class="card-title font-weight-bold mb-2">🧠 Buscaminas</h5>
+                <p class="card-text text-muted small">Despejá el terreno analizando las proximidades numéricas sin detonar los explosivos ocultos.</p>
+              </div>
+              <button routerLink="/whoami" class="btn btn-sm btn-dark w-100 mt-3">Ver Info del Juego</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  }
+
+</div>

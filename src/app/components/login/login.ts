@@ -16,17 +16,23 @@ export class Login {
   correo: string = '';
   contrasenia: string = '';
   mensajeError = signal<string | null>(null);
+  
+  // Signal para controlar el estado visual del spinner
+  cargando = signal<boolean>(false);
 
   async onSubmit() {
     this.mensajeError.set(null);
+    this.cargando.set(true); // Encendemos el spinner
+    
     try {
       await this.authService.login(this.correo, this.contrasenia);
     } catch (err: any) {
       this.mensajeError.set(err);
+    } finally {
+      this.cargando.set(false); // Apagamos el spinner al terminar (exito o falla)
     }
   }
 
-  // Sistema de autocompletado rápido requerido para las pruebas dinámicas
   cargarAccesoRapido(perfil: string) {
     this.mensajeError.set(null);
     if (perfil === 'admin') {
