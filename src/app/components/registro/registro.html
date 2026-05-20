@@ -1,1 +1,43 @@
-<p>registro works!</p>
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <div class="card shadow p-4 border-0 rounded-3">
+        <h2 class="text-center mb-4 font-weight-bold">Crear Cuenta Nueva</h2>
+        
+        <form (ngSubmit)="onRegistro()">
+          <div class="row">
+            <div class="col-md-6 mb-3">
+              <label class="form-label small text-muted">Nombre</label>
+              <input type="text" class="form-control" [(ngModel)]="nombre" name="nombre" required>
+            </div>
+            <div class="col-md-6 mb-3">
+              <label class="form-label small text-muted">Apellido</label>
+              <input type="text" class="form-control" [(ngModel)]="apellido" name="apellido" required>
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label small text-muted">Edad</label>
+            <input type="number" class="form-control" [(ngModel)]="edad" name="edad" required min="1">
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label small text-muted">Correo electrónico</label>
+            <input type="email" class="form-control" [(ngModel)]="correo" name="correo" required>
+          </div>
+
+          <div class="mb-4">
+            <label class="form-label small text-muted">Contraseña</label>
+            <input type="password" class="form-control" [(ngModel)]="contrasenia" name="contrasenia" required>
+          </div>
+
+          <div *ngIf="mensajeError()" class="alert alert-danger py-2 small" role="alert">
+            {{ mensajeError() }}
+          </div>
+
+          <button type="submit" class="btn btn-success w-100">Registrarme e Ingresar</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
