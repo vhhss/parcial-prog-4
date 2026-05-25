@@ -3,6 +3,7 @@ import { Home } from './components/home/home';
 import { Login } from './components/login/login';
 import { Registro } from './components/registro/registro';
 import { Whoami } from './components/whoami/whoami';
+import { Chat } from './components/chat/chat'; // <-- 1. Importamos el nuevo componente del Chat
 import { authGuard } from './guards/auth.guard'; // Valida que el usuario ESTÉ logueado
 import { invitadoGuard } from './guards/invitado.guard'; // Valida que el usuario NO ESTÉ logueado
 
@@ -17,6 +18,9 @@ export const routes: Routes = [
   { path: 'registro', component: Registro, canActivate: [invitadoGuard] },
   
   { path: 'whoami', component: Whoami },
+  
+  // RUTA PROTEGIDA PARA EL CHAT GLOBAL (Solo usuarios logueados)
+  { path: 'chat', component: Chat, canActivate: [authGuard] },
   
   // RUTA PROTEGIDA PARA USUARIOS: Si intentan entrar a un juego sin loguearse, el Guard los rebota al Login
   { 

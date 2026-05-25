@@ -13,13 +13,11 @@
       </button>
 
       @if (authService.usuarioActual() === null) {
-        <!-- <button class="btn btn-outline-light px-3" routerLink="/login" routerLinkActive="active">
-          Login
+        } @else {
+        <button class="btn btn-outline-info px-3" routerLink="/chat" routerLinkActive="active">
+          Chat Global
         </button>
-        <button class="btn btn-outline-light px-3" routerLink="/registro" routerLinkActive="active">
-          Registro
-        </button> -->
-      } @else {
+
         <span class="text-info small mx-2">👤 {{ authService.usuarioActual().nombre }}</span>
         <button class="btn btn-sm btn-outline-danger px-3" (click)="authService.logout()">
           Cerrar Sesión
