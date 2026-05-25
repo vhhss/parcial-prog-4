@@ -8,6 +8,7 @@ import { Ahorcado } from './components/ahorcado/ahorcado';
 import { MayorMenor } from './components/mayor-menor/mayor-menor';
 import { Preguntados } from './components/preguntados/preguntados';
 import { Buscaminas } from './components/buscaminas/buscaminas';
+import { Resultados } from './components/resultados/resultados';
 import { authGuard } from './guards/auth.guard'; // Valida que el usuario ESTÉ logueado
 import { invitadoGuard } from './guards/invitado.guard'; // Valida que el usuario NO ESTÉ logueado
 
@@ -29,7 +30,8 @@ export const routes: Routes = [
   { path: 'juegos/mayor-menor', component: MayorMenor, canActivate: [authGuard] },
   { path: 'juegos/preguntados', component: Preguntados, canActivate: [authGuard] },
   { path: 'juegos/buscaminas', component: Buscaminas, canActivate: [authGuard] },
-  
+  { path: 'resultados', component: Resultados, canActivate: [authGuard] },
+
   { path: '**', redirectTo: 'home' }
 ];
 
