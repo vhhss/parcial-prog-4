@@ -1,0 +1,96 @@
+<div class="container mt-4">
+  <div class="row justify-content-center">
+    <div class="col-md-10 col-lg-8">
+
+      <div class="card shadow border-0">
+        
+        <div class="card-header bg-dark text-white d-flex align-items-center justify-content-between py-3">
+          <h5 class="mb-0 m-0"><i class="bi bi-person-lines-fill me-2"></i> Juego: El Ahorcado</h5>
+          <span class="badge bg-secondary p-2 fs-6"><i class="bi bi-clock-fill me-1"></i> {{ tiempoFormateado }}</span>
+        </div>
+
+        <div class="card-body bg-body-tertiary text-center p-4">
+          
+          <div class="d-flex justify-content-between align-items-center mb-4">
+            <div class="text-start">
+              <span class="text-muted small d-block">Intentos restantes</span>
+              <h4 class="mb-0 text-danger">
+                @for (vida of [].constructor(intentosRestantes()); track $index) {
+                  ❤️
+                }
+                @if (intentosRestantes() === 0) {
+                  💀 Game Over
+                }
+              </h4>
+            </div>
+            <div>
+              <span class="badge bg-info text-dark">Letras usadas: {{ letrasSeleccionadas().length }}</span>
+            </div>
+          </div>
+
+          <hr class="text-muted">
+
+          <div class="my-5 d-flex justify-content-center gap-2 flex-wrap">
+            @for (letra of palabraOculta(); track $index) {
+              <div class="border-bottom border-3 border-primary px-3 py-2 fs-2 fw-bold text-body" 
+                   style="min-width: 45px; letter-spacing: 2px;">
+                {{ letra }}
+              </div>
+            }
+          </div>
+
+          @if (juegoTerminado()) {
+            <div class="alert p-4 my-4 shadow-sm animate__animated animate__zoomIn"
+                 [class.alert-success]="resultado() === 'VICTORIA'"
+                 [class.alert-danger]="resultado() === 'DERROTA'">
+              <h3 class="fw-bold mb-2">
+                {{ resultado() === 'VICTORIA' ? '🎉 ¡Felicidades, Ganaste!' : '😢 ¡Te quedaste sin vidas!' }}
+              </h3>
+              <p class="mb-3">
+                {{ resultado() === 'VICTORIA' ? 'Descubriste la palabra a tiempo.' : 'La palabra secreta era: ' + palabraSecreta() }}
+              </p>
+              <button class="btn btn-lg px-4" 
+                      [class.btn-success]="resultado() === 'VICTORIA'"
+                      [class.btn-danger]="resultado() === 'DERROTA'"
+                      (click)="iniciarJuego()">
+                <i class="bi bi-arrow-clockwise me-1"></i> Jugar de Nuevo
+              </button>
+            </div>
+          }
+
+          <div class="row row-cols-4 row-cols-sm-6 row-cols-md-7 g-2 justify-content-center mt-4" 
+               [class.opacity-50]="juegoTerminado()"
+               [style.pointer-events]="juegoTerminado() ? 'none' : 'auto'">
+            
+            @for (letra of abecedario; track letra) {
+              <div class="col d-flex justify-content-center">
+                <button type="button"
+                        class="btn w-100 fw-bold py-3 fs-5 border"
+                        [class.btn-outline-primary]="!letrasSeleccionadas().includes(letra)"
+                        [class.btn-secondary]="letrasSeleccionadas().includes(letra)"
+                        [disabled]="letrasSeleccionadas().includes(letra) || juegoTerminado()"
+                        (click)="seleccionarLetra(letra)">
+                  {{ letra }}
+                </button>
+              </div>
+            }
+          </div>
+
+        </div>
+
+        <div class="card-footer bg-body-secondary d-flex justify-content-between py-3">
+          <button class="btn btn-sm btn-outline-secondary" routerLink="/home">
+            <i class="bi bi-arrow-left me-1"></i> Volver al Inicio
+          </button>
+          <button class="btn btn-sm btn-warning fw-bold text-dark" 
+                  [disabled]="juegoTerminado()" 
+                  (click)="iniciarJuego()">
+            <i class="bi bi-arrow-counterclockwise me-1"></i> Reiniciar Palabra
+          </button>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+</div>
