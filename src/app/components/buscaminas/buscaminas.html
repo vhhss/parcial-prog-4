@@ -1,0 +1,104 @@
+<div class="container mt-4">
+  <div class="row justify-content-center">
+    <div class="col-md-8 col-lg-6">
+
+      <div class="card shadow border-0">
+        
+        <div class="card-header bg-dark text-white d-flex align-items-center justify-content-between py-3">
+          <h5 class="mb-0 m-0"><i class="bi bi-minecart-loaded me-2"></i> Juego Propio: Buscaminas</h5>
+          <span class="badge bg-danger p-2 fs-6">Despejados: {{ celdasDespejadas() }}</span>
+        </div>
+
+        <div class="card-body bg-body-tertiary text-center p-4">
+          
+          <div class="alert shadow-sm mb-4 animate__animated animate__fadeIn" [class]="claseFeedback()">
+            <div class="d-flex align-items-center justify-content-center gap-2">
+              <span class="small fw-bold">{{ mensajeFeedback() }}</span>
+            </div>
+          </div>
+
+          <div class="mx-auto border border-3 rounded p-2 bg-dark shadow-sm" style="max-width: 360px;">
+            
+            @for (fila of tablero(); track $index) {
+              <div class="d-flex justify-content-center">
+                
+                @for (celda of fila; track $index) {
+                  <button type="button"
+                          class="btn p-0 m-1 fw-bold border-0 rounded d-flex align-items-center justify-content-center fs-5 transition"
+                          style="width: 36px; height: 36px; user-select: none;"
+                          
+                          [class.btn-secondary]="!celda.revelada && !celda.marcada"
+                          [class.btn-warning]="!celda.revelada && celda.marcada"
+                          [class.bg-body]="celda.revelada && !celda.tieneMina"
+                          [class.text-body]="celda.revelada"
+                          [class.btn-danger]="celda.revelada && celda.tieneMina"
+                          
+                          [disabled]="celda.revelada || juegoTerminado()"
+                          
+                          (click)="revelarCelda(celda.fila, celda.columna)"
+                          (contextmenu)="marcarCelda($event, celda.fila, celda.columna)">
+
+                    @if (celda.revelada) {
+                      @if (celda.tieneMina) {
+                        💣
+                      } @else if (celda.minasAlrededor > 0) {
+                        <span [class.text-primary]="celda.minasAlrededor === 1"
+                              [class.text-success]="celda.minasAlrededor === 2"
+                              [class.text-danger]="celda.minasAlrededor >= 3">
+                          {{ celda.minasAlrededor }}
+                        </span>
+                      }
+                    } @else if (celda.marcada) {
+                      🚩
+                    }
+                  </button>
+                }
+
+              </div>
+            }
+
+          </div>
+
+          <p class="text-muted small mt-3 mb-0">
+            <i class="bi bi-mouse-fill me-1"></i> Click Izquierdo: Revelar terreno 
+            <span class="mx-2">|</span> 
+            <i class="bi bi-mouse2-fill me-1"></i> Click Derecho: Marcar Bandera (🚩)
+          </p>
+
+          @if (juegoTerminado()) {
+            <div class="alert p-3 my-3 shadow-sm animate__animated animate__zoomIn"
+                 [class.alert-success]="resultado() === 'VICTORIA'"
+                 [class.alert-danger]="resultado() === 'DERROTA'">
+              <h4 class="fw-bold mb-1">
+                {{ resultado() === 'VICTORIA' ? '🏆 ¡Misión Cumplida!' : '💥 Fin de la Operación' }}
+              </h4>
+              <p class="small mb-3">
+                {{ resultado() === 'VICTORIA' ? 'Limpiaste las 10 minas con éxito.' : 'Detonaste un explosivo oculto.' }}
+              </p>
+              <button class="btn btn-sm px-4 fw-bold" 
+                      [class.btn-success]="resultado() === 'VICTORIA'"
+                      [class.btn-danger]="resultado() === 'DERROTA'"
+                      (click)="iniciarJuego()">
+                <i class="bi bi-arrow-clockwise me-1"></i> Volver a Intentar
+              </button>
+            </div>
+          }
+
+        </div>
+
+        <div class="card-footer bg-body-secondary d-flex justify-content-between py-3">
+          <button class="btn btn-sm btn-outline-secondary" routerLink="/home">
+            <i class="bi bi-arrow-left me-1"></i> Volver al Inicio
+          </button>
+          <button class="btn btn-sm btn-outline-warning text-dark fw-bold" 
+                  [disabled]="juegoTerminado()" 
+                  (click)="iniciarJuego()">
+            <i class="bi bi-arrow-counterclockwise me-1"></i> Resetear Campo
+          </button>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+</div>
