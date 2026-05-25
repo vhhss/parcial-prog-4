@@ -62,17 +62,19 @@ export class AuthService {
         return;
       }
 
-      // Autenticación mediante Firebase Auth
+      // Le pedimos a Firebase que valide al usuario con las credenciales ingresadas
       const credenciales = await signInWithEmailAndPassword(this.auth, correo, contrasenia);
       
-      // Obtenemos los datos complementarios antes de realizar la redirección
+      // Buscamos sus datos reales (Nombre, Edad) en la Realtime Database
       const dbRef = ref(this.db);
       const snapshot = await get(child(dbRef, `usuarios/${credenciales.user.uid}`));
       
       if (snapshot.exists()) {
+        // Guardamos los datos en el Signal global para que cambie la Navbar
         this.usuarioActual.set(snapshot.val());
       }
       
+      // Le ordenamos a Angular que navegue al Home después de iniciar sesión (si el usuario es correcto, no habrá bloqueos porque el Signal ya se actualizó)
       await this.router.navigate(['/home']);
       
     } catch (error: any) {
