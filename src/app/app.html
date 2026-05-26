@@ -13,9 +13,13 @@
       </button>
 
       @if (authService.usuarioActual() === null) {
-        } @else {
-        <button class="btn btn-outline-info px-3" routerLink="/chat" routerLinkActive="active">
-          Chat Global
+      } @else {
+        <button class="btn btn-outline-info px-3" routerLink="/chat" routerLinkActive="active" title="Chat Global">
+          💬
+        </button>
+
+        <button class="btn btn-outline-warning px-3" routerLink="/resultados" routerLinkActive="active" title="Ver Resultados Globales">
+          🏆
         </button>
 
         <span class="text-info small mx-2">👤 {{ authService.usuarioActual().nombre }}</span>

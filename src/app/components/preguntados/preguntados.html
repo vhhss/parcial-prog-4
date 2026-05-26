@@ -1,0 +1,91 @@
+<div class="container mt-4">
+  <div class="row justify-content-center">
+    <div class="col-md-8 col-lg-6">
+
+      <div class="card shadow border-0">
+        
+        <div class="card-header bg-dark text-white d-flex align-items-center justify-content-between py-3">
+          <h5 class="mb-0 m-0"><i class="bi bi-patch-question-fill me-2"></i> Trivia: Preguntados Pokémon</h5>
+          <span class="badge bg-primary p-2 fs-6">Aciertos: {{ puntuacion() }}</span>
+        </div>
+
+        <div class="card-body bg-body-tertiary text-center p-4">
+          
+          <div class="d-flex justify-content-between align-items-center mb-3">
+            <div class="text-start">
+              <span class="text-muted small d-block">Vidas restantes</span>
+              <h5 class="mb-0 text-danger">
+                @for (v of [].constructor(vidas()); track $index) { ❤️ }
+                @if (vidas() === 0) { 💀 Fin del Juego }
+              </h5>
+            </div>
+            <div>
+              <span class="badge bg-secondary">Generación 1 (151)</span>
+            </div>
+          </div>
+
+          <div class="alert shadow-sm mb-4 animate__animated animate__fadeIn" [class]="claseFeedback()">
+            <strong class="fs-6">{{ mensajeFeedback() }}</strong>
+          </div>
+
+          <div class="my-4 d-flex justify-content-center align-items-center" style="min-height: 200px;">
+            @if (cargando()) {
+              <div class="spinner-border text-primary" role="status">
+                <span class="visually-hidden">Buscando Pokémon...</span>
+              </div>
+            } @else if (pokemonActual()) {
+              <div class="animate__animated animate__fadeIn">
+                <img [src]="pokemonActual()?.imagen" 
+                     alt="Pokémon Misterioso" 
+                     class="img-fluid" 
+                     style="max-height: 180px; transition: filter 0.4s ease;"
+                     [style.filter]="!respondido() ? 'brightness(0)' : 'none'">
+              </div>
+            }
+          </div>
+
+          @if (juegoTerminado()) {
+            <div class="p-3 my-3 bg-danger-subtle text-danger rounded-3 animate__animated animate__zoomIn">
+              <h5 class="fw-bold mb-1">🎮 ¡Trivia Finalizada!</h5>
+              <p class="small mb-2">Respondiste correctamente un total de <strong>{{ puntuacion() }}</strong> preguntas.</p>
+              <button class="btn btn-danger btn-sm px-4 fw-bold shadow-sm" (click)="iniciarJuego()">
+                <i class="bi bi-arrow-clockwise me-1"></i> Reiniciar Trivia
+              </button>
+            </div>
+          }
+
+          <div class="row row-cols-1 row-cols-sm-2 g-2 mt-3" [class.opacity-50]="cargando()">
+            @for (opcion of pokemonActual()?.opciones; track opcion) {
+              <div class="col">
+                <button type="button"
+                        class="btn w-100 py-3 fw-bold border text-uppercase shadow-sm"
+                        [class.btn-outline-primary]="!respondido()"
+                        [class.btn-success]="respondido() && opcion === pokemonActual()?.nombre"
+                        [class.btn-danger]="respondido() && opcion === opcionSeleccionada() && opcion !== pokemonActual()?.nombre"
+                        [class.btn-secondary]="respondido() && opcion !== opcionSeleccionada() && opcion !== pokemonActual()?.nombre"
+                        [disabled]="respondido() || juegoTerminado() || cargando()"
+                        (click)="verificarRespuesta(opcion)">
+                  {{ opcion }}
+                </button>
+              </div>
+            }
+          </div>
+
+        </div>
+
+        <div class="card-footer bg-body-secondary d-flex justify-content-between py-3">
+          <button class="btn btn-sm btn-outline-secondary" routerLink="/home">
+            <i class="bi bi-arrow-left me-1"></i> Volver al Inicio
+          </button>
+          <button class="btn btn-sm btn-outline-primary" 
+                  [disabled]="juegoTerminado() || respondido() || cargando()" 
+                  (click)="cargarSiguientePregunta()">
+            <i class="bi bi-skip-forward-fill me-1"></i> Saltar Pokémon
+          </button>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+</div>
