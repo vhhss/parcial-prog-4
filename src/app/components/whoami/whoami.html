@@ -1,0 +1,38 @@
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-6 text-center" *ngIf="datosGithub() as data">
+      
+      <div class="card shadow p-4 mb-4 rounded border-0">
+        <img [src]="data.avatar_url" alt="Foto de perfil" class="img-fluid mb-3 shadow-sm rounded-3" style="max-width: 150px; margin: 0 auto;">
+        <h2 class="h4 font-weight-bold mb-1">{{ data.name || data.login }}</h2>
+        <p class="text-muted small mb-3">Estudiante de Programación - UTN</p>
+        
+        <div class="text-start bg-body-tertiary p-3 rounded mb-3 small">
+          <p class="mb-2"><strong>📁 Repositorios públicos:</strong> {{ data.public_repos }}</p>
+          <p class="mb-0"><strong>📅 Miembro desde:</strong> {{ data.created_at | date: 'dd/MM/yyyy' }}</p>
+        </div>
+
+        <a [href]="data.html_url" target="_blank" class="btn btn-outline-secondary btn-sm w-100">Ver mi GitHub</a>
+      </div>
+
+      <div class="card shadow p-4 text-start border-0">
+        <h4 class="text-primary h5 mb-3">🧠 Mi Juego Propio: Buscaminas</h4>
+        <p class="mt-2">
+          <strong>¿Por qué lo elegí?</strong> 
+          Elegí el Buscaminas porque es un clásico que combina lógica, estrategia y un poco de suerte. Me gusta cómo desafía a los jugadores a pensar antes de actuar, y siempre me ha parecido un juego entretenido para pasar el tiempo.
+        </p>
+        <p class="mb-0">
+          <strong>¿Cómo se juega?</strong> 
+          El objetivo del Buscaminas es despejar un campo de minas sin detonarlas. El jugador hace clic en las casillas para revelar lo que hay debajo. Si revela una mina, pierde. Si revela un número, ese número indica cuántas minas hay en las casillas adyacentes. El jugador debe usar esta información para deducir dónde están las minas y marcar esas casillas con banderas.
+        </p>
+      </div>
+
+    </div>
+
+    <div class="col-md-6 text-center" *ngIf="errorApi">
+      <div class="alert alert-danger" role="alert">
+        No se pudieron cargar los datos desde GitHub. ¡Revisá la conexión!
+      </div>
+    </div>
+  </div>
+</div>
