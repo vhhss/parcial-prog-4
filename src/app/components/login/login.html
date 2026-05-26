@@ -1,1 +1,38 @@
-<p>login works!</p>
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-5">
+      <div class="card shadow p-4 border-0 rounded-3">
+        <h2 class="text-center mb-4 font-weight-bold">Ingreso al Sistema</h2>
+        
+        <form (ngSubmit)="onSubmit()">
+          <div class="mb-3">
+            <label class="form-label small text-muted">Correo electrónico</label>
+            <input type="email" class="form-control" [(ngModel)]="correo" name="correo" required>
+          </div>
+          <div class="mb-4">
+            <label class="form-label small text-muted">Contraseña</label>
+            <input type="password" class="form-control" [(ngModel)]="contrasenia" name="contrasenia" required>
+          </div>
+
+          <div *ngIf="mensajeError()" class="alert alert-danger py-2 small" role="alert">
+            {{ mensajeError() }}
+          </div>
+
+          <button type="submit" class="btn btn-primary w-100 mb-3" [disabled]="cargando()">
+            <span *ngIf="cargando()" class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+            <span *ngIf="!cargando()">Iniciar Sesión</span>
+            <span *ngIf="cargando()">Ingresando...</span>
+          </button>
+        </form>
+
+        <hr class="text-muted">
+        <p class="text-center small text-muted mb-3">Accesos rápidos de prueba</p>
+        <div class="d-flex gap-2 justify-content-center">
+          <button (click)="cargarAccesoRapido('admin')" class="btn btn-sm btn-outline-danger w-100">Admin</button>
+          <button (click)="cargarAccesoRapido('invitado')" class="btn btn-sm btn-outline-success w-100">Invitado</button>
+          <button (click)="cargarAccesoRapido('tester')" class="btn btn-sm btn-outline-primary w-100">Tester</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,5 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject, PLATFORM_ID } from '@angular/core'; // Inyectamos PLATFORM_ID
+import { isPlatformBrowser } from '@angular/common'; // Comprobador oficial de entorno
 import { RouterModule } from '@angular/router'; 
+import { AuthService } from './services/auth.service';
 
 @Component({
   selector: 'app-root',
@@ -11,18 +13,20 @@ import { RouterModule } from '@angular/router';
 export class App implements OnInit {
   title = 'parcial';
   isDarkMode = true;
+
+  public authService = inject(AuthService);
   
+  // Guardamos el identificador de la plataforma actual
+  private platformId = inject(PLATFORM_ID);
+
   ngOnInit(): void {
-    // Al iniciar, intentamos recuperar el tema que guardó el usuario antes
-    try {
+    if (isPlatformBrowser(this.platformId)) {
       const savedTheme = localStorage.getItem('theme');
       if (savedTheme) {
         this.isDarkMode = savedTheme === 'dark';
       }
-    } catch (e) {
+      this.applyTheme();
     }
-    
-    this.applyTheme();
   }
 
   toggleTheme(): void {
@@ -31,11 +35,10 @@ export class App implements OnInit {
   }
 
   private applyTheme(): void {
-    try {
+    if (isPlatformBrowser(this.platformId)) {
       const theme = this.isDarkMode ? 'dark' : 'light';
       document.documentElement.setAttribute('data-bs-theme', theme);
       localStorage.setItem('theme', theme);
-    } catch (error) {
     }
   }
 }

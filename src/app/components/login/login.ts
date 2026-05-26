@@ -1,9 +1,49 @@
-import { Component } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-login',
-  imports: [],
+  standalone: true,
+  imports: [CommonModule, FormsModule],
   templateUrl: './login.html',
-  styleUrl: './login.css',
+  styleUrls: ['./login.css']
 })
-export class Login {}
+export class Login {
+  private authService = inject(AuthService);
+
+  correo: string = '';
+  contrasenia: string = '';
+  mensajeError = signal<string | null>(null);
+  
+  // Signal para controlar el estado visual del spinner
+  cargando = signal<boolean>(false);
+
+  async onSubmit() {
+    this.mensajeError.set(null);
+    this.cargando.set(true); // Encendemos el spinner
+    
+    try {
+      await this.authService.login(this.correo, this.contrasenia);
+    } catch (err: any) {
+      this.mensajeError.set(err);
+    } finally {
+      this.cargando.set(false); // Apagamos el spinner al terminar (exito o falla)
+    }
+  }
+
+  cargarAccesoRapido(perfil: string) {
+    this.mensajeError.set(null);
+    if (perfil === 'admin') {
+      this.correo = 'admin@sala.com';
+      this.contrasenia = 'admin123';
+    } else if (perfil === 'invitado') {
+      this.correo = 'invitado@sala.com';
+      this.contrasenia = 'invitado123';
+    } else if (perfil === 'tester') {
+      this.correo = 'tester@sala.com';
+      this.contrasenia = 'tester123';
+    }
+  }
+}
