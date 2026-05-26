@@ -23,11 +23,40 @@
             — Edad: {{ authService.usuarioActual().edad }} años
           </p>
         </div>
-        <button (click)="logout()" class="btn btn-sm btn-danger px-3">Cerrar Sesión</button>
+        <button (click)="authService.logout()" class="btn btn-sm btn-danger px-3">Cerrar Sesión</button>
       </div>
 
-      <h3 class="text-start h5 text-muted mb-4">Catálogo de Juegos Disponibles</h3>
+      <h3 class="text-start h5 text-muted mb-4">Catálogo de Juegos y Utilidades</h3>
       <div class="row g-4 text-start">
+        
+        <div class="col-md-4">
+          <div class="card shadow-sm border-0 h-100 p-3 rounded-3 border-start border-primary border-3">
+            <div class="card-body d-flex flex-column justify-content-between">
+              <div>
+                <h5 class="card-title font-weight-bold mb-2">🔤 El Ahorcado</h5>
+                <p class="card-text text-muted small">Adiviná la palabra secreta seleccionando las letras del abecedario antes de quedarte sin vidas. ¡El tiempo corre!</p>
+              </div>
+              <button routerLink="/juegos/ahorcado" class="btn btn-sm btn-primary w-100 mt-3 fw-bold">
+                Jugar Ahora <i class="bi bi-play-fill"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-4">
+          <div class="card shadow-sm border-0 h-100 p-3 rounded-3 border-start border-warning border-3">
+            <div class="card-body d-flex flex-column justify-content-between">
+              <div>
+                <h5 class="card-title font-weight-bold mb-2">🃏 Mayor o Menor</h5>
+                <p class="card-text text-muted small">Desafía a la suerte e intenta adivinar si la siguiente carta de la baraja española será numéricamente mayor o menor que la actual.</p>
+              </div>
+              <button routerLink="/juegos/mayor-menor" class="btn btn-sm btn-warning text-dark w-100 mt-3 fw-bold">
+                Jugar Ahora <i class="bi bi-play-fill"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+
         <div class="col-md-4">
           <div class="card shadow-sm border-0 h-100 p-3 rounded-3">
             <div class="card-body d-flex flex-column justify-content-between">
@@ -39,6 +68,21 @@
             </div>
           </div>
         </div>
+
+        <div class="col-md-4">
+          <div class="card shadow-sm border-0 h-100 p-3 rounded-3 border-start border-info border-3">
+            <div class="card-body d-flex flex-column justify-content-between">
+              <div>
+                <h5 class="card-title font-weight-bold mb-2">💬 Chat Global</h5>
+                <p class="card-text text-muted small">Conectate en tiempo real con otros estudiantes de la UTN. Compartí estrategias, marcas o charlá con la comunidad.</p>
+              </div>
+              <button routerLink="/chat" class="btn btn-sm btn-info text-dark w-100 mt-3 fw-bold">
+                Entrar a la Sala <i class="bi bi-chat-fill"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+
       </div>
     </div>
   }

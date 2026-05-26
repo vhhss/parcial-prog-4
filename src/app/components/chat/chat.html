@@ -1,0 +1,68 @@
+<div class="container mt-4">
+  <div class="row justify-content-center">
+    <div class="col-md-8 col-lg-6">
+      
+      <div class="card shadow-sm border-0">
+        
+        <div class="card-header bg-dark text-white d-flex align-items-center justify-content-between py-3">
+          <h5 class="mb-0 m-0"><i class="bi bi-chat-dots-fill me-2"></i> Sala de Chat Global</h5>
+          <span class="badge bg-success">En línea (Tiempo real)</span>
+        </div>
+
+        <div class="card-body bg-body-tertiary overflow-y-auto" style="height: 450px; display: flex; flex-direction: column;">
+          
+          @if (chatService.mensajes().length === 0) {
+            <div class="text-center text-muted my-auto">
+              <p class="mb-0">No hay mensajes en la sala. ¡Sé el primero en escribir!</p>
+            </div>
+          }
+
+          @for (msg of chatService.mensajes(); track msg.id) {
+            <div class="mb-3 d-flex flex-column" 
+                 [class.align-items-end]="msg.uid === authService.usuarioActual()?.uid"
+                 [class.align-items-start]="msg.uid !== authService.usuarioActual()?.uid">
+              
+              @if (msg.uid !== authService.usuarioActual()?.uid) {
+                <small class="text-muted mb-1 fw-bold ps-2">{{ msg.nombre }}</small>
+              }
+
+              <div class="p-3 rounded-3 shadow-sm" style="max-width: 75%; word-break: break-word;"
+                   [class.bg-primary]="msg.uid === authService.usuarioActual()?.uid"
+                   [class.text-white]="msg.uid === authService.usuarioActual()?.uid"
+                   [class.bg-body]="msg.uid !== authService.usuarioActual()?.uid"
+                   [class.text-body]="msg.uid !== authService.usuarioActual()?.uid">
+                
+                <p class="mb-1 text-start" style="font-size: 0.95rem;">{{ msg.texto }}</p>
+                
+                <div class="text-end" style="font-size: 0.7rem;" 
+                     [class.text-white-50]="msg.uid === authService.usuarioActual()?.uid"
+                     [class.text-muted]="msg.uid !== authService.usuarioActual()?.uid">
+                  {{ msg.horaLegible }}
+                </div>
+              </div>
+
+            </div>
+          }
+
+        </div>
+
+        <div class="card-footer bg-body-secondary border-top-0 py-3">
+          <form (ngSubmit)="enviar()" class="input-group">
+            <input type="text" 
+                   class="form-control bg-body text-body" 
+                   placeholder="Escribe un mensaje aquí..." 
+                   [(ngModel)]="nuevoMensaje" 
+                   name="textoMensaje"
+                   autocomplete="off"
+                   required>
+            <button class="btn btn-primary px-4" type="submit" [disabled]="!nuevoMensaje().trim()">
+              Enviar <i class="bi bi-send-fill ms-1"></i>
+            </button>
+          </form>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+</div>
